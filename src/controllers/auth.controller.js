@@ -4,6 +4,8 @@ const { LoginRequestModel } = require('../model/request/user/login.request');
 const { UserResponseModel } = require('../model/response/user/user.response');
 const { ResponseUtil, ErrorHandlerUtil } = require('../utils');
 const { JwtUtil } = require('../utils/jwt.util');
+const { auditLogUtil } = require('../utils/audit-log.util');
+const { AUDIT_ACTION } = require('../constants');
 
 class AuthController {
   constructor() {
@@ -25,6 +27,17 @@ class AuthController {
     const token = JwtUtil.generateToken({
       userId: user.id,
       email: user.email,
+    });
+
+    // Log audit event
+    await auditLogUtil.logSuccess(req, AUDIT_ACTION.USER_CREATED, {
+      entityType: 'user',
+      entityId: user.id,
+      description: `User registered: ${user.email}`,
+      metadata: {
+        email: user.email,
+        name: user.name,
+      },
     });
 
     ResponseUtil.created(res, {
@@ -52,6 +65,16 @@ class AuthController {
     const token = JwtUtil.generateToken({
       userId: user.id,
       email: user.email,
+    });
+
+    // Log audit event
+    await auditLogUtil.logSuccess(req, AUDIT_ACTION.USER_LOGIN, {
+      entityType: 'user',
+      entityId: user.id,
+      description: `User logged in: ${user.email}`,
+      metadata: {
+        email: user.email,
+      },
     });
 
     ResponseUtil.success(res, {

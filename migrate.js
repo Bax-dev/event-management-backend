@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const { db } = require('./src/utils/database.connection');
 const fs = require('fs');
 const path = require('path');

@@ -10,6 +10,7 @@ const bookingRoutes = require('./routes/booking.routes');
 const orderRoutes = require('./routes/order.routes');
 const ticketRoutes = require('./routes/ticket.routes');
 const authRoutes = require('./routes/auth.routes');
+const auditLogRoutes = require('./routes/audit-log.routes');
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/waiting-list', waitingListRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
 
 // Simplified ticket management endpoints
 app.use('/api', ticketRoutes);

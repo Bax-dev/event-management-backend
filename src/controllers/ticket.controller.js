@@ -4,6 +4,8 @@ const { WaitingListService } = require('../services/waiting-list.service');
 const { ResponseUtil, ErrorHandlerUtil } = require('../utils');
 const { ConflictError } = require('../utils/custom-errors.util');
 const { AuthMiddleware } = require('../middleware/auth.middleware');
+const { auditLogUtil } = require('../utils/audit-log.util');
+const { AUDIT_ACTION } = require('../constants');
 
 class TicketController {
   constructor() {
@@ -43,6 +45,17 @@ class TicketController {
       name: name.trim(),
       description: description?.trim(),
       totalTickets,
+    });
+
+    // Log audit event
+    await auditLogUtil.logSuccess(req, AUDIT_ACTION.EVENT_INITIALIZED, {
+      entityType: 'event',
+      entityId: event.id,
+      description: `Event "${event.name}" initialized with ${totalTickets} tickets`,
+      metadata: {
+        name: event.name,
+        totalTickets: event.totalTickets,
+      },
     });
 
     ResponseUtil.created(res, {
@@ -100,6 +113,18 @@ class TicketController {
         numberOfTickets,
       });
 
+      // Log audit event
+      await auditLogUtil.logSuccess(req, AUDIT_ACTION.BOOKING_CREATED, {
+        entityType: 'booking',
+        entityId: booking.id,
+        description: `User booked ${numberOfTickets} ticket(s) for event`,
+        metadata: {
+          eventId: booking.eventId,
+          numberOfTickets: booking.numberOfTickets,
+          status: booking.status,
+        },
+      });
+
       ResponseUtil.created(res, {
         bookingId: booking.id,
         eventId: booking.eventId,
@@ -119,6 +144,18 @@ class TicketController {
               numberOfTickets,
             }
           );
+
+          // Log audit event
+          await auditLogUtil.logSuccess(req, AUDIT_ACTION.WAITING_LIST_ADDED, {
+            entityType: 'waiting_list',
+            entityId: waitingListEntry.id,
+            description: `User added to waiting list for ${numberOfTickets} ticket(s)`,
+            metadata: {
+              eventId: waitingListEntry.eventId,
+              numberOfTickets: waitingListEntry.numberOfTickets,
+              priority: waitingListEntry.priority,
+            },
+          });
 
           ResponseUtil.created(res, {
             waitingListId: waitingListEntry.id,
@@ -169,6 +206,18 @@ class TicketController {
     }
 
     const cancelledBooking = await this.bookingService.cancelBooking(bookingId);
+
+    // Log audit event
+    await auditLogUtil.logSuccess(req, AUDIT_ACTION.BOOKING_CANCELLED, {
+      entityType: 'booking',
+      entityId: cancelledBooking.id,
+      description: `Booking cancelled for event ${cancelledBooking.eventId}`,
+      metadata: {
+        eventId: cancelledBooking.eventId,
+        userId: cancelledBooking.userId,
+        numberOfTickets: cancelledBooking.numberOfTickets,
+      },
+    });
 
     ResponseUtil.success(res, {
       bookingId: cancelledBooking.id,
