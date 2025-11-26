@@ -25,7 +25,7 @@ class RegisterRequestModel {
       errors.push('Name must be less than 200 characters');
     }
 
-    if (this.phone && !/^\+?[1-9]\d{1,14}$/.test(this.phone)) {
+    if (this.phone && !/^\d{11}$/.test(this.phone)) {
       errors.push('Invalid phone number format');
     }
 

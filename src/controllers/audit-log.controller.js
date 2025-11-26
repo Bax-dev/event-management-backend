@@ -44,7 +44,7 @@ class AuditLogController {
       });
 
       ResponseUtil.success(res, {
-        auditLogs: result.data.map((log) => log.toJSON()),
+        auditLogs: result.data.map(log => log.toJSON()),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -69,7 +69,7 @@ class AuditLogController {
       });
 
       ResponseUtil.success(res, {
-        auditLogs: result.data.map((log) => log.toJSON()),
+        auditLogs: result.data.map(log => log.toJSON()),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -94,7 +94,7 @@ class AuditLogController {
       });
 
       ResponseUtil.success(res, {
-        auditLogs: result.data.map((log) => log.toJSON()),
+        auditLogs: result.data.map(log => log.toJSON()),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -118,7 +118,7 @@ class AuditLogController {
       });
 
       ResponseUtil.success(res, {
-        auditLogs: result.data.map((log) => log.toJSON()),
+        auditLogs: result.data.map(log => log.toJSON()),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -148,7 +148,7 @@ class AuditLogController {
       });
 
       ResponseUtil.success(res, {
-        auditLogs: result.data.map((log) => log.toJSON()),
+        auditLogs: result.data.map(log => log.toJSON()),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -158,4 +158,3 @@ class AuditLogController {
 }
 
 module.exports = { AuditLogController };
-
