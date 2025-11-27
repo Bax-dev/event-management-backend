@@ -322,5 +322,5 @@ Returns the server status and database connection status.
 
 ## License
 
-ISC
+MIT
 
