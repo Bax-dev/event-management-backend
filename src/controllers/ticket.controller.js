@@ -3,7 +3,6 @@ const { BookingService } = require('../services/booking.service');
 const { WaitingListService } = require('../services/waiting-list.service');
 const { ResponseUtil, ErrorHandlerUtil } = require('../utils');
 const { ConflictError } = require('../utils/custom-errors.util');
-const { AuthMiddleware } = require('../middleware/auth.middleware');
 const { auditLogUtil } = require('../utils/audit-log.util');
 const { AUDIT_ACTION } = require('../constants');
 

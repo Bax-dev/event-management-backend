@@ -1,5 +1,3 @@
-const { Booking } = require('../../entity/booking.entity');
-
 class BookingResponseModel {
   constructor(entity) {
     this.id = entity.id;

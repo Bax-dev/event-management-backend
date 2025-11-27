@@ -1,5 +1,3 @@
-const { Event } = require('../../entity/event.entity');
-
 class EventResponseModel {
   constructor(entity) {
     this.id = entity.id;

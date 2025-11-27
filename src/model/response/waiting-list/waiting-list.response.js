@@ -1,5 +1,3 @@
-const { WaitingList } = require('../../entity/waiting-list.entity');
-
 class WaitingListResponseModel {
   constructor(entity) {
     this.id = entity.id;

@@ -1,6 +1,5 @@
 const { db } = require('../utils/database.connection');
 const { User } = require('../model/entity/user.entity');
-const { IdGeneratorUtil } = require('../utils/id-generator.util');
 
 class UserRepository {
   constructor() {

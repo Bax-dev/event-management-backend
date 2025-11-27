@@ -1,5 +1,3 @@
-const { Order } = require('../../entity/order.entity');
-
 class OrderResponseModel {
   constructor(entity) {
     this.id = entity.id;

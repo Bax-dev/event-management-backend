@@ -1,4 +1,3 @@
-const { Response } = require('express');
 
 class ResponseUtil {
   static success(res, data, message, statusCode = 200) {

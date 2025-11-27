@@ -1,5 +1,3 @@
-const { User } = require('../../entity/user.entity');
-
 class UserResponseModel {
   constructor(entity) {
     this.id = entity.id;

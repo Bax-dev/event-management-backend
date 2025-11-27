@@ -6,7 +6,7 @@ const { IdGeneratorUtil } = require('../utils/id-generator.util');
 const { CacheUtil } = require('../utils/cache.util');
 const { TransactionUtil } = require('../utils/transaction.util');
 const { LoggerUtil } = require('../utils/logger.util');
-const { WAITING_LIST_STATUS, BOOKING_STATUS } = require('../constants');
+const { WAITING_LIST_STATUS } = require('../constants');
 const {
   NotFoundError,
   ConflictError,
