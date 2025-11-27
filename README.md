@@ -17,7 +17,7 @@ A RESTful API for managing events, bookings, tickets, orders, and waiting lists.
 
 - Node.js (v18 or higher)
 - PostgreSQL (v12 or higher)
-- npm or yarn
+- yarn
 
 ## Setup
 
@@ -29,7 +29,7 @@ cd event-management-express
 
 2. Install dependencies:
 ```bash
-npm install
+yarn install
 ```
 
 3. Set up environment variables:
@@ -66,30 +66,30 @@ createdb event_management
 
 5. Run database migrations:
 ```bash
-npm run migrate
+yarn migrate
 ```
 
 ## Running the Application
 
 ### Development Mode
 ```bash
-npm run dev
+yarn dev
 ```
 This starts the server with auto-reload on file changes.
 
 ### Production Mode
 ```bash
-npm start
+yarn start
 ```
 
 ### Check Migration Status
 ```bash
-npm run migrate:status
+yarn migrate:status
 ```
 
 ### Rollback Migrations
 ```bash
-npm run migrate:rollback
+yarn migrate:rollback
 ```
 
 The server will start on `http://localhost:3000` (or the port specified in your `.env` file).
@@ -270,27 +270,27 @@ src/
 
 ### Run All Tests
 ```bash
-npm test
+yarn test
 ```
 
 ### Run Unit Tests Only
 ```bash
-npm run test:unit
+yarn test:unit
 ```
 
 ### Run Integration Tests Only
 ```bash
-npm run test:integration
+yarn test:integration
 ```
 
 ### Run Tests with Coverage
 ```bash
-npm run test:coverage
+yarn test:coverage
 ```
 
 ### Watch Mode
 ```bash
-npm run test:watch
+yarn test:watch
 ```
 
 ## Environment Variables
