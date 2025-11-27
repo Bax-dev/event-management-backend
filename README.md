@@ -322,6 +322,42 @@ GET /health
 
 Returns the server status and database connection status.
 
+## CI/CD Pipeline
+
+The project includes a GitHub Actions workflow for continuous integration and deployment (`.github/workflows/ci.yml`):
+
+
+## CI/CD Pipeline
+
+The project includes a GitHub Actions workflow for continuous integration and deployment (`.github/workflows/ci.yml`):
+
+### CI Jobs (runs on every push and pull request):
+- **Lint**: Code quality checks with ESLint
+- **Test**: Unit and integration tests with PostgreSQL service
+- **Build**: Application build verification
+- **Security**: Dependency security audit
+
+### Deploy Job (runs only on pushes to main branch):
+- Deploys to production after all CI jobs pass
+- Uses environment variables from GitHub Secrets
+
+### GitHub Secrets Required for Deployment
+
+Add these secrets in GitHub (Settings > Secrets and variables > Actions):
+
+- `DB_HOST` - Database host
+- `DB_PORT` - Database port
+- `DB_NAME` - Database name
+- `DB_USER` - Database user
+- `DB_PASSWORD` - Database password
+- `DB_SSL` - Database SSL setting (true/false)
+- `JWT_SECRET` - JWT secret key
+- `JWT_EXPIRES_IN` - JWT expiration time
+
+**Note**: CI jobs (lint, test, build, security) run without secrets. Only the deploy job requires secrets.
+
+See `.github/SETUP.md` for detailed setup instructions.
+
 ## License
 
 MIT
