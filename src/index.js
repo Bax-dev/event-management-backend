@@ -36,7 +36,6 @@ app.use(
   })
 );
 
-// Initialize database connection
 db.connect();
 
 // Run database migrations
@@ -60,54 +59,49 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/waiting-list', waitingListRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
 
-// Simplified ticket management endpoints
-app.use('/api', ticketRoutes);
+app.use('/api/tickets', ticketRoutes);
 
-// Swagger UI Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
   customSiteTitle: 'Event Management API Documentation',
+  swaggerOptions: {
+    docExpansion: 'none', 
+    defaultModelsExpandDepth: 0, 
+    defaultModelExpandDepth: 0,
+    filter: true, 
+    showExtensions: true,
+    showCommonExtensions: true,
+  },
 }));
 
-// ReDoc Documentation
-app.get('/docs', (_req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Event Management API - ReDoc</title>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
-        <style>
-          body { margin: 0; padding: 0; }
-        </style>
-      </head>
-      <body>
-        <redoc 
-          spec-url='/api-docs/swagger.json'
-          hide-download-button="false"
-          hide-hostname="false"
-          expand-responses="200,201"
-          path-in-middle-panel="true"
-        ></redoc>
-        <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
-      </body>
-    </html>
-  `);
-});
-
-// Swagger JSON endpoint
 app.get('/api-docs/swagger.json', (_req, res) => {
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'no-cache');
-  // Ensure clean JSON output
-  const jsonString = JSON.stringify(swaggerSpec, null, 2);
-  res.send(jsonString);
+  try {
+
+    const jsonString = JSON.stringify(swaggerSpec);
+    
+    const validated = JSON.parse(jsonString);
+    
+    if (!validated.openapi && !validated.swagger) {
+      throw new Error('Invalid OpenAPI specification');
+    }
+    
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    
+    res.json(validated);
+  } catch (error) {
+    LoggerUtil.error('Error generating swagger.json', error);
+    res.status(500).json({ 
+      error: 'Failed to generate API documentation', 
+      message: error.message 
+    });
+  }
 });
 
-// Health check endpoint
 app.get('/health', async (_req, res) => {
   const dbConnected = await db.testConnection();
   res.status(dbConnected ? 200 : 503).json({
@@ -126,9 +120,6 @@ const startServer = async () => {
       LoggerUtil.info(`Server is running on port ${PORT}`);
       LoggerUtil.info(`Health check: http://localhost:${PORT}/health`);
       LoggerUtil.info(`Swagger UI: http://localhost:${PORT}/api-docs`);
-      LoggerUtil.info(`ReDoc: http://localhost:${PORT}/docs`);
-      LoggerUtil.info(`Events API: http://localhost:${PORT}/api/events`);
-      LoggerUtil.info(`Ticket API: http://localhost:${PORT}/api/initialize`);
     });
 
     server.on('error', (error) => {

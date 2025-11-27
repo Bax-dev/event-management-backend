@@ -9,6 +9,7 @@ const {
   NotFoundError,
   ConcurrencyError,
   DatabaseError,
+  ValidationError,
 } = require('../utils/custom-errors.util');
 const { EventResponseModel } = require('../model/response/event/event.response');
 
@@ -125,9 +126,29 @@ class EventService {
               currentEvent.description = data.description;
             }
             if (data.totalTickets !== undefined) {
+              const newTotalTickets = currentEvent.totalTickets + data.totalTickets;
+              
+              if (newTotalTickets < 0) {
+                throw new ValidationError(
+                  `Cannot reduce total tickets below 0. Current total: ${currentEvent.totalTickets}, attempting to ${data.totalTickets > 0 ? 'add' : 'remove'} ${Math.abs(data.totalTickets)}, would result in: ${newTotalTickets}`
+                );
+              }
+              
+              if (newTotalTickets < currentEvent.bookedTickets) {
+                throw new ValidationError(
+                  `Cannot reduce total tickets to ${newTotalTickets}. There are ${currentEvent.bookedTickets} tickets already booked.`
+                );
+              }
+              
+              if (newTotalTickets > 1000000) {
+                throw new ValidationError(
+                  `Total tickets cannot exceed 1,000,000. Current total: ${currentEvent.totalTickets}, adding: ${data.totalTickets}, would result in: ${newTotalTickets}`
+                );
+              }
+              
               const previousTotal = currentEvent.totalTickets;
-              currentEvent.totalTickets = data.totalTickets;
-              const difference = data.totalTickets - previousTotal;
+              currentEvent.totalTickets = newTotalTickets;
+              const difference = newTotalTickets - previousTotal;
               currentEvent.availableTickets = Math.max(
                 0,
                 currentEvent.availableTickets + difference
@@ -145,7 +166,11 @@ class EventService {
 
           return event;
         } catch (error) {
-          if (error instanceof NotFoundError || error instanceof ConcurrencyError) {
+          if (
+            error instanceof NotFoundError ||
+            error instanceof ConcurrencyError ||
+            error instanceof ValidationError
+          ) {
             throw error;
           }
           throw new DatabaseError('Failed to update event', error);

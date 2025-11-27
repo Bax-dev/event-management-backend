@@ -232,7 +232,7 @@ class AuditLogRepository {
       entityType: row.entity_type,
       entityId: row.entity_id,
       description: row.description,
-      metadata: row.metadata ? JSON.parse(row.metadata) : null,
+      metadata: row.metadata ?? null,
       ipAddress: row.ip_address,
       userAgent: row.user_agent,
       status: row.status,

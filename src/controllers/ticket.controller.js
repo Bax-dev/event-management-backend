@@ -14,14 +14,10 @@ class TicketController {
     this.waitingListService = new WaitingListService();
   }
 
-  /**
-   * POST /initialize
-   * Initialize a new event with a given number of tickets
-   */
+ 
   initializeEvent = ErrorHandlerUtil.handleAsync(async (req, res) => {
     const { name, description, totalTickets } = req.body;
 
-    // Validation
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
       ResponseUtil.validationError(res, ['Event name is required']);
       return;
@@ -47,7 +43,6 @@ class TicketController {
       totalTickets,
     });
 
-    // Log audit event
     await auditLogUtil.logSuccess(req, AUDIT_ACTION.EVENT_INITIALIZED, {
       entityType: 'event',
       entityId: event.id,

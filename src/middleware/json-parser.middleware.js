@@ -18,9 +18,7 @@ class JsonParserMiddleware {
         'application/vnd.api+json',
       ],
       verify: (req, _res, buf) => {
-        // Log large payloads for monitoring
         if (buf.length > 1024 * 1024) {
-          // > 1MB
           LoggerUtil.info('Large JSON payload received', {
             size: `${(buf.length / 1024 / 1024).toFixed(2)}MB`,
             path: req.path,

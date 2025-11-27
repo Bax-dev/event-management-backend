@@ -23,6 +23,10 @@ const AUDIT_ACTION = {
   BOOKING_CANCELLED: 'booking.cancelled',
   BOOKING_CONFIRMED: 'booking.confirmed',
 
+  STATUS_SUCCESS: 'success',
+  STATUS_FAILURE: 'failure',
+  STATUS_ERROR: 'error',
+
   // Order actions
   ORDER_CREATED: 'order.created',
   ORDER_UPDATED: 'order.updated',

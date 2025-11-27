@@ -223,7 +223,25 @@
 <a name='L158'></a><a href='#L158'>158</a>
 <a name='L159'></a><a href='#L159'>159</a>
 <a name='L160'></a><a href='#L160'>160</a>
-<a name='L161'></a><a href='#L161'>161</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -298,7 +316,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -420,18 +456,27 @@ const readLimiter = <span class="cstat-no" title="statement not covered" >RateLi
  *               email:
  *                 type: string
  *                 format: email
- *                 example: user@example.com
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 example: SecurePassword123!
  *               name:
  *                 type: string
- *                 example: John Doe
  *               phone:
  *                 type: string
- *                 example: +1234567890
+ *             examples:
+ *               basic:
+ *                 summary: Basic registration
+ *                 value:
+ *                   email: "user@example.com"
+ *                   password: "SecurePassword123!"
+ *               full:
+ *                 summary: Full registration with optional fields
+ *                 value:
+ *                   email: "john.doe@example.com"
+ *                   password: "SecurePassword123!"
+ *                   name: "John Doe"
+ *                   phone: "+1234567890"
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -479,11 +524,20 @@ const readLimiter = <span class="cstat-no" title="statement not covered" >RateLi
  *               email:
  *                 type: string
  *                 format: email
- *                 example: user@example.com
  *               password:
  *                 type: string
  *                 format: password
- *                 example: SecurePassword123!
+ *             examples:
+ *               standard:
+ *                 summary: Standard login
+ *                 value:
+ *                   email: "user@example.com"
+ *                   password: "SecurePassword123!"
+ *               admin:
+ *                 summary: Admin user login
+ *                 value:
+ *                   email: "admin@example.com"
+ *                   password: "AdminPassword123!"
  *     responses:
  *       200:
  *         description: Login successful
@@ -550,7 +604,7 @@ const readLimiter = <span class="cstat-no" title="statement not covered" >RateLi
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-26T19:23:00.790Z
+                at 2025-11-27T09:06:41.324Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

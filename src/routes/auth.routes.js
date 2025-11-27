@@ -35,18 +35,27 @@ const readLimiter = RateLimitUtil.createReadLimiter();
  *               email:
  *                 type: string
  *                 format: email
- *                 example: user@example.com
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 example: SecurePassword123!
  *               name:
  *                 type: string
- *                 example: John Doe
  *               phone:
  *                 type: string
- *                 example: +1234567890
+ *             examples:
+ *               basic:
+ *                 summary: Basic registration
+ *                 value:
+ *                   email: "user@example.com"
+ *                   password: "SecurePassword123!"
+ *               full:
+ *                 summary: Full registration with optional fields
+ *                 value:
+ *                   email: "john.doe@example.com"
+ *                   password: "SecurePassword123!"
+ *                   name: "John Doe"
+ *                   phone: "+1234567890"
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -94,11 +103,20 @@ router.post('/register', authLimiter, authController.register);
  *               email:
  *                 type: string
  *                 format: email
- *                 example: user@example.com
  *               password:
  *                 type: string
  *                 format: password
- *                 example: SecurePassword123!
+ *             examples:
+ *               standard:
+ *                 summary: Standard login
+ *                 value:
+ *                   email: "user@example.com"
+ *                   password: "SecurePassword123!"
+ *               admin:
+ *                 summary: Admin user login
+ *                 value:
+ *                   email: "admin@example.com"
+ *                   password: "AdminPassword123!"
  *     responses:
  *       200:
  *         description: Login successful

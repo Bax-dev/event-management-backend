@@ -29,7 +29,6 @@ class AuthController {
       email: user.email,
     });
 
-    // Log audit event
     await auditLogUtil.logSuccess(req, AUDIT_ACTION.USER_CREATED, {
       entityType: 'user',
       entityId: user.id,
@@ -67,7 +66,6 @@ class AuthController {
       email: user.email,
     });
 
-    // Log audit event
     await auditLogUtil.logSuccess(req, AUDIT_ACTION.USER_LOGIN, {
       entityType: 'user',
       entityId: user.id,

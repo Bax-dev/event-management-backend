@@ -34,7 +34,7 @@ class Event {
   }
 
   updateAvailableTickets() {
-    this.availableTickets = this.totalTickets - this.bookedTickets;
+    this.availableTickets = Math.max(0, this.totalTickets - this.bookedTickets);
   }
 }
 

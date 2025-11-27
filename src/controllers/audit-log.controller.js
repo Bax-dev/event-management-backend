@@ -7,10 +7,6 @@ class AuditLogController {
     this.service = new AuditLogService();
   }
 
-  /**
-   * Get audit log by ID
-   * @route GET /api/audit-logs/:id
-   */
   async getById(req, res) {
     try {
       const { id } = req.params;
@@ -27,10 +23,6 @@ class AuditLogController {
     }
   }
 
-  /**
-   * Get audit logs by user ID
-   * @route GET /api/audit-logs/user/:userId
-   */
   async getByUserId(req, res) {
     try {
       const { userId } = req.params;
@@ -52,10 +44,6 @@ class AuditLogController {
     }
   }
 
-  /**
-   * Get audit logs by entity
-   * @route GET /api/audit-logs/entity/:entityType/:entityId
-   */
   async getByEntity(req, res) {
     try {
       const { entityType, entityId } = req.params;
@@ -77,10 +65,6 @@ class AuditLogController {
     }
   }
 
-  /**
-   * Get audit logs by action
-   * @route GET /api/audit-logs/action/:action
-   */
   async getByAction(req, res) {
     try {
       const { action } = req.params;
@@ -102,10 +86,6 @@ class AuditLogController {
     }
   }
 
-  /**
-   * Get all audit logs
-   * @route GET /api/audit-logs
-   */
   async getAll(req, res) {
     try {
       const { page = 1, limit = 20, sortBy = 'createdAt', sortOrder = 'DESC' } = req.query;
@@ -126,10 +106,6 @@ class AuditLogController {
     }
   }
 
-  /**
-   * Get current user's audit logs
-   * @route GET /api/audit-logs/me
-   */
   async getMyLogs(req, res) {
     try {
       const userId = req.user?.id;

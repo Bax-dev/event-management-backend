@@ -1,5 +1,4 @@
 function getDatabaseConfig() {
-  // Ensure password is always a string (pg library requirement)
   const password = process.env.DB_PASSWORD;
   const passwordString = password !== undefined && password !== null ? String(password) : '';
 

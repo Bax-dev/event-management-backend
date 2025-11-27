@@ -18,15 +18,11 @@ class UpdateEventRequestModel {
     }
 
     if (this.totalTickets !== undefined) {
-      if (this.totalTickets <= 0) {
-        errors.push('Total tickets must be greater than 0');
-      }
       if (!Number.isInteger(this.totalTickets)) {
         errors.push('Total tickets must be an integer');
       }
-      if (this.totalTickets > 1000000) {
-        errors.push('Total tickets cannot exceed 1,000,000');
-      }
+      // Note: totalTickets is added to existing value, so negative values are allowed for reduction
+      // Final validation (e.g., not below booked tickets) is done in the service
     }
 
     if (this.description !== undefined && this.description.length > 1000) {

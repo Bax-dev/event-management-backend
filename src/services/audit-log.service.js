@@ -11,18 +11,7 @@ class AuditLogService {
 
   /**
    * Create an audit log entry
-   * @param {Object} data - Audit log data
-   * @param {string} data.action - Action type (from AUDIT_ACTION constants)
-   * @param {string} [data.userId] - User ID who performed the action
-   * @param {string} [data.userEmail] - User email
-   * @param {string} [data.entityType] - Type of entity (e.g., 'event', 'booking')
-   * @param {string} [data.entityId] - ID of the entity
-   * @param {string} [data.description] - Human-readable description
-   * @param {Object} [data.metadata] - Additional metadata as JSON object
-   * @param {string} [data.ipAddress] - IP address of the requester
-   * @param {string} [data.userAgent] - User agent string
-   * @param {string} [data.status] - Status: 'success', 'failure', 'error'
-   * @param {string} [data.errorMessage] - Error message if status is 'error' or 'failure'
+   * @param {Object} data - Audit log data (action required, other fields optional)
    * @param {Object} [client] - Database client for transactions
    * @returns {Promise<AuditLog>}
    */

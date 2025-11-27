@@ -18,7 +18,7 @@ const readLimiter = RateLimitUtil.createReadLimiter();
 
 /**
  * @swagger
- * /api/initialize:
+ * /api/tickets/initialize:
  *   post:
  *     summary: Initialize a new event with a given number of tickets
  *     tags: [Tickets]
@@ -34,15 +34,30 @@ const readLimiter = RateLimitUtil.createReadLimiter();
  *             properties:
  *               name:
  *                 type: string
- *                 example: Summer Music Festival 2024
  *               description:
  *                 type: string
- *                 example: Annual summer music festival featuring top artists
  *               totalTickets:
  *                 type: integer
  *                 minimum: 1
  *                 maximum: 1000000
- *                 example: 100
+ *             examples:
+ *               basic:
+ *                 summary: Basic event initialization
+ *                 value:
+ *                   name: "Summer Music Festival 2024"
+ *                   totalTickets: 100
+ *               full:
+ *                 summary: Full event with description
+ *                 value:
+ *                   name: "Summer Music Festival 2024"
+ *                   description: "Annual summer music festival featuring top artists"
+ *                   totalTickets: 500
+ *               large:
+ *                 summary: Large event
+ *                 value:
+ *                   name: "Mega Concert 2024"
+ *                   description: "The biggest concert of the year"
+ *                   totalTickets: 10000
  *     responses:
  *       201:
  *         description: Event initialized successfully
@@ -76,7 +91,7 @@ router.post('/initialize', writeLimiter, ticketController.initializeEvent);
 
 /**
  * @swagger
- * /api/book:
+ * /api/tickets/book:
  *   post:
  *     summary: Book tickets for a user (automatically adds to waiting list if sold out)
  *     tags: [Tickets]
@@ -95,12 +110,26 @@ router.post('/initialize', writeLimiter, ticketController.initializeEvent);
  *               eventId:
  *                 type: string
  *                 format: uuid
- *                 example: 550e8400-e29b-41d4-a716-446655440000
  *               numberOfTickets:
  *                 type: integer
  *                 minimum: 1
  *                 maximum: 100
- *                 example: 5
+ *             examples:
+ *               single:
+ *                 summary: Book a single ticket
+ *                 value:
+ *                   eventId: 550e8400-e29b-41d4-a716-446655440000
+ *                   numberOfTickets: 1
+ *               multiple:
+ *                 summary: Book multiple tickets
+ *                 value:
+ *                   eventId: 550e8400-e29b-41d4-a716-446655440000
+ *                   numberOfTickets: 5
+ *               family:
+ *                 summary: Book tickets for family
+ *                 value:
+ *                   eventId: 550e8400-e29b-41d4-a716-446655440000
+ *                   numberOfTickets: 10
  *     responses:
  *       201:
  *         description: Tickets booked successfully or added to waiting list
@@ -176,7 +205,7 @@ router.post('/book', writeLimiter, AuthMiddleware.authenticate, ticketController
 
 /**
  * @swagger
- * /api/cancel:
+ * /api/tickets/cancel:
  *   post:
  *     summary: Cancel a booking for a user (automatically assigns to waiting list if available)
  *     tags: [Tickets]
@@ -194,7 +223,11 @@ router.post('/book', writeLimiter, AuthMiddleware.authenticate, ticketController
  *               bookingId:
  *                 type: string
  *                 format: uuid
- *                 example: 660e8400-e29b-41d4-a716-446655440001
+ *             examples:
+ *               standard:
+ *                 summary: Cancel a booking
+ *                 value:
+ *                   bookingId: 660e8400-e29b-41d4-a716-446655440001
  *     responses:
  *       200:
  *         description: Booking cancelled successfully
@@ -240,7 +273,7 @@ router.post('/cancel', writeLimiter, AuthMiddleware.authenticate, ticketControll
 
 /**
  * @swagger
- * /api/status/{eventId}:
+ * /api/tickets/status/{eventId}:
  *   get:
  *     summary: Get current status of an event (available tickets, waiting list count)
  *     tags: [Tickets]

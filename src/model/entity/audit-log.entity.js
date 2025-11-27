@@ -6,13 +6,13 @@ class AuditLog {
     this.userId = data.userId || null;
     this.userEmail = data.userEmail || null;
     this.action = data.action || '';
-    this.entityType = data.entityType || null; // e.g., 'event', 'booking', 'order'
+    this.entityType = data.entityType || null; 
     this.entityId = data.entityId || null;
     this.description = data.description || '';
-    this.metadata = data.metadata || null; // JSON object for additional data
+    this.metadata = data.metadata || null; 
     this.ipAddress = data.ipAddress || null;
     this.userAgent = data.userAgent || null;
-    this.status = data.status || 'success'; // 'success', 'failure', 'error'
+    this.status = data.status || AUDIT_ACTION.STATUS_SUCCESS; 
     this.errorMessage = data.errorMessage || null;
     this.createdAt = data.createdAt || new Date();
   }

@@ -33,7 +33,11 @@ class ErrorHandlerUtil {
       }
 
       if (error instanceof ValidationError) {
-        ResponseUtil.validationError(res, error.errors);
+        // If errors array is empty but message exists, use message as error
+        const errors = error.errors && error.errors.length > 0 
+          ? error.errors 
+          : [error.message];
+        ResponseUtil.validationError(res, errors, error.message);
         return;
       }
 

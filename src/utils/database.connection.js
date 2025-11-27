@@ -34,11 +34,8 @@ class DatabaseConnection {
       throw new Error('Database pool not initialized');
     }
 
-    const start = Date.now();
     try {
       const result = await this.pool.query(text, params);
-      const duration = Date.now() - start;
-      LoggerUtil.logQuery(text, duration, result.rowCount ?? 0);
       return result;
     } catch (error) {
       LoggerUtil.error('Query error', error, { query: text });

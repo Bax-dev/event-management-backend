@@ -1,7 +1,3 @@
-/**
- * Booking Status Constants
- * Defines all possible statuses for a booking
- */
 
 const BOOKING_STATUS = {
   PENDING: 'pending',
