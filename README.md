@@ -15,7 +15,7 @@ A RESTful API for managing events, bookings, tickets, orders, and waiting lists.
 
 ## Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js (v20.11.0 or higher)
 - PostgreSQL (v12 or higher)
 - yarn
 
