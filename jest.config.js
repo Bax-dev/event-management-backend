@@ -20,9 +20,6 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  setupFilesAfterEnv: [
-    '<rootDir>/tests/integration/setup.js',
-  ],
   testEnvironment: 'node',
 };
 

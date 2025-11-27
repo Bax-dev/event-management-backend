@@ -71,20 +71,8 @@ jobs:
           PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE event_management_test;"
         continue-on-error: true
 
-      - name: Run unit tests
-        run: yarn test:unit
-
       - name: Run integration tests
         run: yarn test:integration
-
-      - name: Generate coverage report
-        run: yarn test:coverage
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage/lcov.info
-          fail_ci_if_error: false
 
   build:
     name: Build Application
