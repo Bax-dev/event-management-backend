@@ -23,7 +23,7 @@ A RESTful API for managing events, bookings, tickets, orders, and waiting lists.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Bax-dev/event-management-backend.git
 cd event-management-express
 ```
 
