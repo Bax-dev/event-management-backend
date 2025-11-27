@@ -113,6 +113,8 @@ class OrderService {
           throw new NotFoundError('Order', id);
         }
 
+        const originalStatus = order.status;
+
         if (data.status !== undefined) order.status = data.status;
         if (data.paymentStatus !== undefined)
           order.paymentStatus = data.paymentStatus;
@@ -130,9 +132,9 @@ class OrderService {
           order.billingAddress = data.billingAddress;
         if (data.notes !== undefined) order.notes = data.notes;
 
-        if (data.status === ORDER_STATUS.PAID && order.status !== ORDER_STATUS.PAID) {
+        if (data.status === ORDER_STATUS.PAID && originalStatus !== ORDER_STATUS.PAID) {
           order.markAsPaid(data.paymentTransactionId);
-        } else if (data.status === ORDER_STATUS.CANCELLED && order.status !== ORDER_STATUS.CANCELLED) {
+        } else if (data.status === ORDER_STATUS.CANCELLED && originalStatus !== ORDER_STATUS.CANCELLED) {
           order.markAsCancelled();
         } else {
           order.updatedAt = new Date();

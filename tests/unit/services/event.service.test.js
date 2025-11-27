@@ -224,8 +224,8 @@ describe('EventService', () => {
 
     it('should fetch from repository and cache when not cached', async () => {
       const mockEvents = [
-        { id: 'event_1', name: 'Event 1' },
-        { id: 'event_2', name: 'Event 2' },
+        { id: 'event_1', name: 'Event 1', createdAt: new Date(), updatedAt: new Date() },
+        { id: 'event_2', name: 'Event 2', createdAt: new Date(), updatedAt: new Date() },
       ];
       const pagination = { page: 1, limit: 10 };
 
@@ -323,6 +323,7 @@ describe('EventService', () => {
         name: 'Test Event',
         totalTickets: 100,
         availableTickets: 50,
+        bookedTickets: 50,
         getVersion: jest.fn().mockReturnValue(0),
         updateAvailableTickets: jest.fn(),
       };
@@ -330,10 +331,10 @@ describe('EventService', () => {
       mockEventRepository.findById.mockResolvedValue(existingEvent);
       mockEventRepository.update.mockResolvedValue(existingEvent);
 
-      await eventService.updateEvent(eventId, { totalTickets: 150 });
+      await eventService.updateEvent(eventId, { totalTickets: 50 }); // Add 50 to existing 100
 
-      expect(existingEvent.totalTickets).toBe(150);
-      expect(existingEvent.availableTickets).toBe(100); // 50 + (150 - 100)
+      expect(existingEvent.totalTickets).toBe(150); // 100 + 50
+      expect(existingEvent.availableTickets).toBe(100); // 50 + 50 (the difference)
     });
   });
 

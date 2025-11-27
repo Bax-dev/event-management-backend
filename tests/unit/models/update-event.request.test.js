@@ -72,7 +72,7 @@ describe('UpdateEventRequestModel', () => {
       expect(result.isValid).toBe(true);
     });
 
-    it('should return invalid when totalTickets is zero', () => {
+    it('should return valid when totalTickets is zero (additive behavior)', () => {
       const data = {
         totalTickets: 0,
       };
@@ -80,11 +80,12 @@ describe('UpdateEventRequestModel', () => {
       const model = new UpdateEventRequestModel(data);
       const result = model.validate();
 
-      expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Total tickets must be greater than 0');
+      expect(result.isValid).toBe(true);
+      // Zero is valid because totalTickets is added to existing value
+      // Final validation happens in service layer
     });
 
-    it('should return invalid when totalTickets is negative', () => {
+    it('should return valid when totalTickets is negative (allows reduction)', () => {
       const data = {
         totalTickets: -10,
       };
@@ -92,8 +93,9 @@ describe('UpdateEventRequestModel', () => {
       const model = new UpdateEventRequestModel(data);
       const result = model.validate();
 
-      expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Total tickets must be greater than 0');
+      expect(result.isValid).toBe(true);
+      // Negative values are valid because totalTickets is added to existing value
+      // Final validation (e.g., not below booked tickets) happens in service layer
     });
 
     it('should return invalid when totalTickets is not an integer', () => {
@@ -108,7 +110,7 @@ describe('UpdateEventRequestModel', () => {
       expect(result.errors).toContain('Total tickets must be an integer');
     });
 
-    it('should return invalid when totalTickets exceeds 1,000,000', () => {
+    it('should return valid when totalTickets exceeds 1,000,000 (additive behavior)', () => {
       const data = {
         totalTickets: 1000001,
       };
@@ -116,8 +118,9 @@ describe('UpdateEventRequestModel', () => {
       const model = new UpdateEventRequestModel(data);
       const result = model.validate();
 
-      expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Total tickets cannot exceed 1,000,000');
+      expect(result.isValid).toBe(true);
+      // Large values are valid because totalTickets is added to existing value
+      // Final validation (e.g., max limit) happens in service layer
     });
 
     it('should return valid when totalTickets is exactly 1,000,000', () => {
@@ -179,7 +182,7 @@ describe('UpdateEventRequestModel', () => {
     it('should return multiple errors for multiple invalid fields', () => {
       const data = {
         name: '   ',
-        totalTickets: -10,
+        totalTickets: -10, // Valid now (additive behavior)
         description: 'a'.repeat(1001),
       };
 
@@ -189,8 +192,8 @@ describe('UpdateEventRequestModel', () => {
       expect(result.isValid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(1);
       expect(result.errors).toContain('Event name cannot be empty');
-      expect(result.errors).toContain('Total tickets must be greater than 0');
       expect(result.errors).toContain('Description must be less than 1000 characters');
+      // totalTickets validation removed - handled in service layer
     });
   });
 });

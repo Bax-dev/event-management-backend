@@ -43,6 +43,10 @@ describe('UserService', () => {
     // Mock IdGeneratorUtil
     jest.spyOn(IdGeneratorUtil, 'generateId').mockReturnValue('user_123');
     
+    // Mock bcrypt functions
+    bcrypt.hash = jest.fn();
+    bcrypt.compare = jest.fn();
+    
     // Create service after mocks are set up
     userService = new UserService();
     
