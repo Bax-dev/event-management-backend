@@ -1,7 +1,4 @@
-/**
- * Migration: Create UUID extension
- * This migration creates the uuid-ossp extension required for UUID generation
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');

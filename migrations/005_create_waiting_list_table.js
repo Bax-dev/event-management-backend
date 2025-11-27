@@ -1,7 +1,3 @@
-/**
- * Migration: Create waiting_list table
- * This migration creates the waiting_list table for managing waiting lists
- */
 
 exports.up = async (pgm) => {
   await pgm.query(`

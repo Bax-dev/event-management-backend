@@ -1,7 +1,4 @@
-/**
- * Migration: Create orders table
- * This migration creates the orders table for order management
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query(`

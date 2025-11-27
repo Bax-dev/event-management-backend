@@ -72,6 +72,40 @@ class DatabaseConnection {
       return false;
     }
   }
+
+  async ensureDatabase() {
+    const config = getDatabaseConfig();
+    const dbName = config.database;
+    
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(dbName)) {
+      throw new Error(`Invalid database name: ${dbName}. Database names must start with a letter or underscore and contain only alphanumeric characters and underscores.`);
+    }
+    
+    const adminConfig = {
+      ...config,
+      database: 'postgres',
+      ssl: config.ssl,
+    };
+
+    const adminPool = new Pool(adminConfig);
+
+    try {
+      const checkQuery = `SELECT 1 FROM pg_database WHERE datname = $1`;
+      const result = await adminPool.query(checkQuery, [dbName]);
+
+      if (result.rows.length === 0) {
+        await adminPool.query(`CREATE DATABASE "${dbName}"`);
+        LoggerUtil.info(`Database '${dbName}' created successfully`);
+      }
+    } catch (error) {
+      if (error.message.includes('already exists') || error.message.includes('duplicate')) {
+        return;
+      }
+      throw new Error(`Failed to ensure database '${dbName}' exists: ${error.message}`);
+    } finally {
+      await adminPool.end();
+    }
+  }
 }
 
 const db = new DatabaseConnection();

@@ -1,7 +1,4 @@
-/**
- * Migration: Create events table
- * This migration creates the events table for event management
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query(`

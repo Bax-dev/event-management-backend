@@ -1,7 +1,4 @@
-/**
- * Migration: Create bookings table
- * This migration creates the bookings table for ticket bookings
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query(`

@@ -13,7 +13,6 @@ describe('Auth API Integration Tests', () => {
   });
 
   afterEach(async () => {
-    // Clean up test data if needed
     await TestHelpers.cleanup();
   });
 

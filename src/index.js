@@ -36,8 +36,6 @@ app.use(
   })
 );
 
-db.connect();
-
 // Run database migrations
 const runMigrations = async () => {
   try {
@@ -113,6 +111,8 @@ app.get('/health', async (_req, res) => {
 
 const startServer = async () => {
   try {
+    await db.ensureDatabase();
+    db.connect();
     await runMigrations();
     
     const server = app.listen(PORT, () => {

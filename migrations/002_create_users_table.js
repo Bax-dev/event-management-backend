@@ -1,7 +1,4 @@
-/**
- * Migration: Create users table
- * This migration creates the users table for user authentication and management
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query(`

@@ -59,15 +59,12 @@ JSON_BODY_LIMIT=10mb
 URL_ENCODED_LIMIT=10mb
 ```
 
-4. Create the PostgreSQL database:
-```bash
-createdb event_management
-```
-
-5. Run database migrations:
+4. Run database migrations (the database will be created automatically if it doesn't exist):
 ```bash
 yarn migrate
 ```
+
+Note: The database will be automatically created when you start the application with `yarn start` or `yarn dev` if it doesn't already exist. You can also run migrations manually using the command above.
 
 ## Running the Application
 

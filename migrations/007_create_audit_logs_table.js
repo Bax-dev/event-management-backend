@@ -1,7 +1,4 @@
-/**
- * Migration: Create audit_logs table
- * This migration creates the audit_logs table for tracking system operations
- */
+
 
 exports.up = async (pgm) => {
   await pgm.query(`
