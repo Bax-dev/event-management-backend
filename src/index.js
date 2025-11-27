@@ -111,7 +111,6 @@ app.get('/health', async (_req, res) => {
   });
 });
 
-// Start server
 const startServer = async () => {
   try {
     await runMigrations();
