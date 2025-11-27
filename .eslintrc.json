@@ -1,5 +1,6 @@
 {
   "root": true,
+  "ignorePatterns": ["tests/**", "**/*.test.js", "**/*.spec.js", "coverage/**", "node_modules/**"],
   "env": {
     "node": true,
     "es2022": true
