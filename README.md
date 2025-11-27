@@ -100,6 +100,11 @@ Once the server is running, you can access the interactive API documentation at:
 - Swagger UI: `http://localhost:3000/api-docs`
 - Swagger JSON: `http://localhost:3000/api-docs/swagger.json`
 
+### Postman Collection
+
+You can import and test the API using the Postman collection:
+- [Postman Collection](https://www.postman.com/universal-equinox-725698/maon-technology-limited)
+
 ### Main API Endpoints
 
 #### Authentication
