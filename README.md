@@ -94,6 +94,12 @@ The server will start on `http://localhost:3000` (or the port specified in your 
 ## API Documentation
 
 Once the server is running, you can access the interactive API documentation at:
+
+### Production
+- Swagger UI: `https://event-management-backend-ky30.onrender.com/api-docs`
+- Swagger JSON: `https://event-management-backend-ky30.onrender.com/api-docs/swagger.json`
+
+### Local Development
 - Swagger UI: `http://localhost:3000/api-docs`
 - Swagger JSON: `http://localhost:3000/api-docs/swagger.json`
 
@@ -321,11 +327,6 @@ GET /health
 ```
 
 Returns the server status and database connection status.
-
-## CI/CD Pipeline
-
-The project includes a GitHub Actions workflow for continuous integration and deployment (`.github/workflows/ci.yml`):
-
 
 ## CI/CD Pipeline
 
