@@ -21,8 +21,6 @@ class UpdateEventRequestModel {
       if (!Number.isInteger(this.totalTickets)) {
         errors.push('Total tickets must be an integer');
       }
-      // Note: totalTickets is added to existing value, so negative values are allowed for reduction
-      // Final validation (e.g., not below booked tickets) is done in the service
     }
 
     if (this.description !== undefined && this.description.length > 1000) {

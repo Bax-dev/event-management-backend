@@ -6,7 +6,6 @@ const { RateLimitUtil } = require('../utils/rate-limit.util');
 const router = express.Router();
 const controller = new AuditLogController();
 
-// Apply rate limiting - 100 requests per 15 minutes
 const readLimiter = RateLimitUtil.createLimiter({
   windowMs: 15 * 60 * 1000,
   max: 100,

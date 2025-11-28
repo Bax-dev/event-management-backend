@@ -13,7 +13,6 @@ class TicketController {
     this.waitingListService = new WaitingListService();
   }
 
- 
   initializeEvent = ErrorHandlerUtil.handleAsync(async (req, res) => {
     const { name, description, totalTickets } = req.body;
 
@@ -23,16 +22,12 @@ class TicketController {
     }
 
     if (!totalTickets || typeof totalTickets !== 'number' || totalTickets <= 0) {
-      ResponseUtil.validationError(res, [
-        'Total tickets must be a positive number',
-      ]);
+      ResponseUtil.validationError(res, ['Total tickets must be a positive number']);
       return;
     }
 
     if (totalTickets > 1000000) {
-      ResponseUtil.validationError(res, [
-        'Total tickets cannot exceed 1,000,000',
-      ]);
+      ResponseUtil.validationError(res, ['Total tickets cannot exceed 1,000,000']);
       return;
     }
 
@@ -61,11 +56,6 @@ class TicketController {
     });
   });
 
-  /**
-   * POST /book
-   * Book a ticket for a user
-   * If sold out, add the user to the waiting list
-   */
   bookTicket = ErrorHandlerUtil.handleAsync(async (req, res) => {
     const { eventId, numberOfTickets } = req.body;
     const userId = req.user?.id;
@@ -81,33 +71,23 @@ class TicketController {
       return;
     }
 
-    if (
-      !numberOfTickets ||
-      typeof numberOfTickets !== 'number' ||
-      numberOfTickets <= 0
-    ) {
-      ResponseUtil.validationError(res, [
-        'Number of tickets must be a positive number',
-      ]);
+    if (!numberOfTickets || typeof numberOfTickets !== 'number' || numberOfTickets <= 0) {
+      ResponseUtil.validationError(res, ['Number of tickets must be a positive number']);
       return;
     }
 
     if (!Number.isInteger(numberOfTickets)) {
-      ResponseUtil.validationError(res, [
-        'Number of tickets must be an integer',
-      ]);
+      ResponseUtil.validationError(res, ['Number of tickets must be an integer']);
       return;
     }
 
     try {
-      // Try to create booking
       const booking = await this.bookingService.createBooking({
         eventId,
         userId,
         numberOfTickets,
       });
 
-      // Log audit event
       await auditLogUtil.logSuccess(req, AUDIT_ACTION.BOOKING_CREATED, {
         entityType: 'booking',
         entityId: booking.id,
@@ -128,18 +108,14 @@ class TicketController {
         message: 'Tickets booked successfully',
       });
     } catch (error) {
-      // If sold out, add to waiting list
       if (error instanceof ConflictError && error.message.includes('available')) {
         try {
-          const waitingListEntry = await this.waitingListService.addToWaitingList(
-            {
-              eventId,
-              userId,
-              numberOfTickets,
-            }
-          );
+          const waitingListEntry = await this.waitingListService.addToWaitingList({
+            eventId,
+            userId,
+            numberOfTickets,
+          });
 
-          // Log audit event
           await auditLogUtil.logSuccess(req, AUDIT_ACTION.WAITING_LIST_ADDED, {
             entityType: 'waiting_list',
             entityId: waitingListEntry.id,
@@ -158,12 +134,10 @@ class TicketController {
             numberOfTickets: waitingListEntry.numberOfTickets,
             status: waitingListEntry.status,
             position: waitingListEntry.priority,
-            message:
-              'Event is sold out. You have been added to the waiting list.',
+            message: 'Event is sold out. You have been added to the waiting list.',
           });
           return;
         } catch (waitingListError) {
-          // If waiting list addition fails, return original error
           throw error;
         }
       }
@@ -171,12 +145,10 @@ class TicketController {
     }
   });
 
-
   cancelBooking = ErrorHandlerUtil.handleAsync(async (req, res) => {
     const { bookingId } = req.body;
     const userId = req.user?.id;
 
-    // Validation
     if (!userId) {
       ResponseUtil.error(res, 'Authentication required', 401);
       return;
@@ -201,7 +173,6 @@ class TicketController {
 
     const cancelledBooking = await this.bookingService.cancelBooking(bookingId);
 
-    // Log audit event
     await auditLogUtil.logSuccess(req, AUDIT_ACTION.BOOKING_CANCELLED, {
       entityType: 'booking',
       entityId: cancelledBooking.id,
@@ -223,7 +194,6 @@ class TicketController {
     });
   });
 
-  
   getEventStatus = ErrorHandlerUtil.handleAsync(async (req, res) => {
     const { eventId } = req.params;
 
@@ -232,19 +202,14 @@ class TicketController {
       return;
     }
 
-    // Get available tickets info
     const ticketsInfo = await this.eventService.getAvailableTickets(eventId);
 
-    // Get waiting list entries
-    const waitingListEntries = await this.waitingListService.getWaitingListByEventId(
-      eventId
-    );
+    const waitingListEntries = await this.waitingListService.getWaitingListByEventId(eventId);
 
     const { WAITING_LIST_STATUS } = require('../constants');
-    
-    // Count pending entries
+
     const pendingCount = waitingListEntries.filter(
-      (entry) => entry.status === WAITING_LIST_STATUS.PENDING
+      entry => entry.status === WAITING_LIST_STATUS.PENDING
     ).length;
 
     ResponseUtil.success(res, {
@@ -256,8 +221,8 @@ class TicketController {
       isSoldOut: ticketsInfo.isSoldOut,
       waitingListCount: pendingCount,
       waitingListEntries: waitingListEntries
-        .filter((entry) => entry.status === WAITING_LIST_STATUS.PENDING)
-        .map((entry) => ({
+        .filter(entry => entry.status === WAITING_LIST_STATUS.PENDING)
+        .map(entry => ({
           id: entry.id,
           userId: entry.userId,
           numberOfTickets: entry.numberOfTickets,

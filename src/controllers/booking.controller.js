@@ -52,7 +52,11 @@ class BookingController {
     const booking = await this.bookingService.cancelBooking(id);
     const response = BookingResponseModel.fromEntity(booking);
 
-    ResponseUtil.success(res, response, 'Booking cancelled successfully. Waiting list users will be notified automatically.');
+    ResponseUtil.success(
+      res,
+      response,
+      'Booking cancelled successfully. Waiting list users will be notified automatically.'
+    );
   });
 }
 

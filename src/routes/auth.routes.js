@@ -175,4 +175,35 @@ router.post('/login', authLimiter, authController.login);
  */
 router.get('/profile', readLimiter, AuthMiddleware.authenticate, authController.getProfile);
 
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Logout user and blacklist token
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: Logout successful
+ *       401:
+ *         description: Unauthorized or invalid token
+ *         $ref: '#/components/responses/Error'
+ */
+router.post('/logout', readLimiter, AuthMiddleware.authenticate, authController.logout);
+
 module.exports = router;

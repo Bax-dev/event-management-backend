@@ -1,7 +1,3 @@
-/**
- * Waiting List Status Constants
- * Defines all possible statuses for a waiting list entry
- */
 
 const WAITING_LIST_STATUS = {
   PENDING: 'pending',

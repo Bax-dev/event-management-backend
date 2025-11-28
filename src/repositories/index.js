@@ -3,6 +3,7 @@ const { WaitingListRepository } = require('./waiting-list.repository');
 const { BookingRepository } = require('./booking.repository');
 const { OrderRepository } = require('./order.repository');
 const { UserRepository } = require('./user.repository');
+const { TokenBlacklistRepository } = require('./token-blacklist.repository');
 
 module.exports = {
   EventRepository,
@@ -10,4 +11,5 @@ module.exports = {
   BookingRepository,
   OrderRepository,
   UserRepository,
+  TokenBlacklistRepository,
 };

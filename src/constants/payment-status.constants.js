@@ -1,7 +1,3 @@
-/**
- * Payment Status Constants
- * Defines all possible statuses for a payment
- */
 
 const PAYMENT_STATUS = {
   PENDING: 'pending',

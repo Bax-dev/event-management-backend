@@ -9,12 +9,6 @@ class AuditLogService {
     this.repository = new AuditLogRepository();
   }
 
-  /**
-   * Create an audit log entry
-   * @param {Object} data - Audit log data (action required, other fields optional)
-   * @param {Object} [client] - Database client for transactions
-   * @returns {Promise<AuditLog>}
-   */
   async log(data, client) {
     try {
       const auditLog = new AuditLog({
@@ -35,7 +29,6 @@ class AuditLogService {
 
       const created = await this.repository.create(auditLog, client);
 
-      // Log to console for debugging (optional)
       LoggerUtil.info(`Audit log created: ${data.action}`, {
         userId: data.userId,
         entityType: data.entityType,
@@ -44,18 +37,11 @@ class AuditLogService {
 
       return created;
     } catch (error) {
-      // Don't throw error for audit logging failures to avoid breaking main operations
       LoggerUtil.error('Failed to create audit log', error);
       return null;
     }
   }
 
-  /**
-   * Get audit logs by user ID
-   * @param {string} userId - User ID
-   * @param {Object} [options] - Query options (page, limit, sortBy, sortOrder)
-   * @returns {Promise<Object>} - Paginated audit logs
-   */
   async getByUserId(userId, options = {}) {
     try {
       return await this.repository.findByUserId(userId, options);
@@ -64,13 +50,6 @@ class AuditLogService {
     }
   }
 
-  /**
-   * Get audit logs by entity
-   * @param {string} entityType - Entity type (e.g., 'event', 'booking')
-   * @param {string} entityId - Entity ID
-   * @param {Object} [options] - Query options (page, limit, sortBy, sortOrder)
-   * @returns {Promise<Object>} - Paginated audit logs
-   */
   async getByEntity(entityType, entityId, options = {}) {
     try {
       return await this.repository.findByEntity(entityType, entityId, options);
@@ -79,12 +58,6 @@ class AuditLogService {
     }
   }
 
-  /**
-   * Get audit logs by action
-   * @param {string} action - Action type
-   * @param {Object} [options] - Query options (page, limit, sortBy, sortOrder)
-   * @returns {Promise<Object>} - Paginated audit logs
-   */
   async getByAction(action, options = {}) {
     try {
       return await this.repository.findByAction(action, options);
@@ -93,11 +66,6 @@ class AuditLogService {
     }
   }
 
-  /**
-   * Get all audit logs
-   * @param {Object} [options] - Query options (page, limit, sortBy, sortOrder)
-   * @returns {Promise<Object>} - Paginated audit logs
-   */
   async getAll(options = {}) {
     try {
       return await this.repository.findAll(options);
@@ -106,11 +74,6 @@ class AuditLogService {
     }
   }
 
-  /**
-   * Get audit log by ID
-   * @param {string} id - Audit log ID
-   * @returns {Promise<AuditLog|null>}
-   */
   async getById(id) {
     try {
       return await this.repository.findById(id);
@@ -121,4 +84,3 @@ class AuditLogService {
 }
 
 module.exports = { AuditLogService };
-

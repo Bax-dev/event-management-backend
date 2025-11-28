@@ -5,6 +5,7 @@ const { UserResponseModel } = require('../model/response/user/user.response');
 const { ResponseUtil, ErrorHandlerUtil } = require('../utils');
 const { JwtUtil } = require('../utils/jwt.util');
 const { auditLogUtil } = require('../utils/audit-log.util');
+const { tokenBlacklistUtil } = require('../utils/token-blacklist.util');
 const { AUDIT_ACTION } = require('../constants');
 
 class AuthController {
@@ -55,10 +56,7 @@ class AuthController {
       return;
     }
 
-    const user = await this.userService.login(
-      loginRequest.email,
-      loginRequest.password
-    );
+    const user = await this.userService.login(loginRequest.email, loginRequest.password);
     const userResponse = UserResponseModel.fromEntity(user);
 
     const token = JwtUtil.generateToken({
@@ -88,7 +86,32 @@ class AuthController {
 
     ResponseUtil.success(res, userResponse);
   });
+
+  logout = ErrorHandlerUtil.handleAsync(async (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      ResponseUtil.error(res, 'No token provided', 401);
+      return;
+    }
+
+    const token = authHeader.substring(7);
+
+    await tokenBlacklistUtil.blacklistToken(token);
+
+    await auditLogUtil.logSuccess(req, AUDIT_ACTION.USER_LOGOUT, {
+      entityType: 'user',
+      entityId: req.user.id,
+      description: `User logged out: ${req.user.email}`,
+      metadata: {
+        email: req.user.email,
+      },
+    });
+
+    ResponseUtil.success(res, {
+      message: 'Logout successful',
+    });
+  });
 }
 
 module.exports = { AuthController };
-
